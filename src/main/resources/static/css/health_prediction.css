@@ -1,0 +1,364 @@
+/* Health Tracker/src/main/resources/static/css/health_prediction.css */
+
+/* Import admin_dashboard.css for base sidebar and main content styles */
+@import url('admin_dashboard.css');
+
+/* Page-specific styling for AI Health Prediction */
+
+/* Ensure the sidebar's background color is white */
+.sidebar {
+    background-color: #ffffff; /* White background for the sidebar */
+}
+
+/* Sidebar Title (HealthPulse) - Consistent with other user pages */
+.sidebar-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3b82f6; /* Blue color for the HealthPulse text */
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.sidebar-title i {
+    font-size: 32px;
+    color: #3b82f6;
+}
+
+/* Navigation Items - Consistent with other user pages */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin: 8px 0;
+    text-decoration: none;
+    color: #4a5568; /* Default text color for inactive items */
+    background-color: transparent;
+    border-radius: 8px;
+    font-size: 17px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-item i {
+    margin-right: 12px;
+    font-size: 18px;
+    color: #64748b; /* Default icon color for inactive items */
+}
+
+.nav-item:hover {
+    background-color: #e0f2fe; /* Light blue on hover */
+    color: #1d4ed8; /* Darker blue text on hover */
+    transform: translateX(5px);
+}
+
+.nav-item:hover i {
+    color: #1d4ed8;
+}
+
+.nav-item.active {
+    background-color: #bfdbfe; /* Light blue background for active item */
+    color: #1d4ed8; /* Darker blue text for active item */
+    font-weight: 600;
+}
+
+.nav-item.active i {
+    color: #1d4ed8;
+}
+
+/* Logout Button - Consistent with other user pages */
+.logout-form {
+    margin-top: auto; /* Pushes the logout button to the bottom */
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.logout-form button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #ef4444; /* Red logout button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logout-form button i {
+    font-size: 18px;
+}
+
+.logout-form button:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+/* Main Content Styles for Prediction Page */
+.main-prediction-content {
+    flex-grow: 1; /* Allows main content to take remaining space */
+    padding: 40px; /* Consistent padding */
+    margin-left: 256px; /* Offset for fixed sidebar (w-64 = 256px) */
+    background-color: #f8fafc; /* Light gray background */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between sections */
+}
+
+/* AI Analysis Box */
+.ai-analysis-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ai-analysis-box h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 15px;
+}
+
+.ai-analysis-box p {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.generate-button {
+    background-color: #3b82f6; /* Blue button */
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.generate-button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* Metrics Section */
+.metrics-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.health-score-box,
+.risk-assessment-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.health-score-box h2,
+.risk-assessment-box h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 15px;
+}
+
+.health-score-box .score {
+    font-size: 48px;
+    font-weight: 800;
+    color: #22c55e; /* Green for score */
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-bar .filled {
+    height: 100%;
+    background-color: #22c55e; /* Green progress */
+    border-radius: 5px;
+}
+
+.health-score-box p {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.risk-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.risk-tag.low {
+    background-color: #d1fae5; /* Light green */
+    color: #065f46; /* Dark green */
+}
+
+.risk-tag.moderate {
+    background-color: #fffbeb; /* Light yellow */
+    color: #b45309; /* Dark yellow */
+}
+
+.risk-tag.high {
+    background-color: #fee2e2; /* Light red */
+    color: #991b1b; /* Dark red */
+}
+
+.risk-assessment-box p {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* Forecast Section */
+.forecast-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.forecast-section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.forecast-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 16px;
+    color: #334155;
+}
+
+.forecast-item:last-child {
+    border-bottom: none;
+}
+
+.forecast-item .confidence {
+    font-weight: 600;
+    color: #22c55e; /* Green for confidence (placeholder, no actual value shown in HTML) */
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.recommendations-section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.recommendation {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.recommendation h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 10px;
+}
+
+.recommendation p {
+    font-size: 15px;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.recommendation .priority {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.recommendation .priority.low {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.recommendation .priority.medium {
+    background-color: #fffbeb;
+    color: #b45309;
+}
+
+.recommendation .priority.high {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .main-prediction-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+        white-space: nowrap;
+    }
+
+    .nav-item {
+        flex-shrink: 0;
+        margin: 0 5px;
+        font-size: 1rem;
+    }
+
+    .sidebar-title, .logout-form {
+        display: none;
+    }
+}

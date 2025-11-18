@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.top-bar {
+    background: #e9f2e6;
+    padding: 0.5em 2em;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2em 2em;
+    background-color: #4f7749;
+    color: white;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.logo span {
+    font-weight: normal;
+}
+
+.sign-in-btn {
+    background-color: #a3c585;
+    color: white;
+    padding: 0.6em 1.2em;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.sign-in-btn:hover {
+    background-color: #8bb56c;
+}
+
+.hero {
+    background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover no-repeat;
+    height: 300px;
+    position: relative;
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-overlay h1 {
+    font-size: 2.5em;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 3em 2em;
+    gap: 1.5em;
+}
+
+.card {
+    background: white;
+    padding: 1.5em;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 220px;
+    text-align: center;
+}
+
+.community {
+    background: #f1f7ed;
+    padding: 3em 2em;
+    text-align: center;
+}
+
+.community .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1em;
+    margin-top: 2em;
+}
+
+.how-it-works {
+    background-color: #d9e9d1;
+    padding: 3em 2em;
+    text-align: center;
+}
+
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+.step {
+    background: white;
+    padding: 1.5em;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.footer {
+    background-color: #4f7749;
+    color: white;
+    text-align: center;
+    padding: 2em 1em;
+}
+.footer a {
+    color: #d3f7c6;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard - Health Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/user_dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar w-64 bg-white text-gray-800 flex flex-col p-4 fixed h-full overflow-y-auto">
+        <h2 class="sidebar-title text-2xl font-bold mb-6 flex items-center justify-center">
+            <i class="fas fa-heartbeat mr-2 text-blue-600"></i> HealthPulse
+        </h2>
+        <nav class="sidebar-nav flex flex-col space-y-2">
+            <a th:href="@{/user/dashboard}" class="nav-item active flex items-center p-3 rounded-lg bg-blue-100 text-blue-700 font-semibold">
+                <i class="fas fa-home mr-3 text-blue-700"></i> Dashboard
+            </a>
+            <a th:href="@{/health-journal}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-clipboard-list mr-3 text-gray-500"></i> Health Journal
+            </a>
+            <a th:href="@{/health_prediction}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-chart-line mr-3 text-gray-500"></i> AI Prediction
+            </a>
+            <a th:href="@{/food_scanner}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-apple-alt mr-3 text-gray-500"></i> Food Scanner
+            </a>
+            <a th:href="@{/user/book_appointment}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-calendar-alt mr-3 text-gray-500"></i> Book Appointment
+            </a>
+        </nav>
+        <form th:action="@{/logout}" method="post" class="logout-form mt-auto">
+            <button type="submit" class="w-full flex items-center justify-center p-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-colors duration-200">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+    </aside>
+    <main class="main">
+        <header class="top-bar">
+            <h1 th:text="'Welcome, ' + ${userDetails.userName}">Welcome, User!</h1>
+            <div class="profile"><i class="fas fa-user-circle"></i></div>
+        </header>
+
+        <section class="dashboard-widgets">
+            <h2>Your Health Summary</h2>
+            <div class="widget-grid">
+                <div class="widget-card">
+                    <h3>Current Weight</h3>
+                    <p>70 kg</p> <i class="fas fa-weight fa-2x"></i>
+                </div>
+                <div class="widget-card">
+                    <h3>Last BMI</h3>
+                    <p>22.5</p>
+                    <i class="fas fa-calculator fa-2x"></i>
+                </div>
+                <div class="widget-card">
+                    <h3>Appointments Due</h3>
+                    <p>2</p>
+                    <i class="fas fa-calendar-alt fa-2x"></i>
+                </div>
+                <div class="widget-card">
+                    <h3>Journal Entries</h3>
+                    <p>4</p>
+                    <i class="fas fa-book fa-2x"></i>
+                </div>
+            </div>
+
+            <h2>Quick Actions</h2>
+            <div class="quick-actions">
+                <a th:href="@{/user/book_appointment}" class="action-button">
+                    <i class="fas fa-calendar-plus"></i> Book Appointment
+                </a>
+                <a th:href="@{/health-journal}" class="action-button">
+                    <i class="fas fa-file-alt"></i> New Journal Entry
+                </a>
+                <a th:href="@{/food_scanner}" class="action-button">
+                    <i class="fas fa-camera"></i> Scan Food
+                </a>
+            </div>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>

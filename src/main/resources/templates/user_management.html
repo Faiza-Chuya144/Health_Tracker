@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>User Management</title>
+    <!-- Common dashboard styling -->
+    <link rel="stylesheet" th:href="@{/css/admin_dashboard.css}" />
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" th:href="@{/css/user_management.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<aside class="sidebar">
+    <h2 class="sidebar-title">
+        <i class="fas fa-heartbeat"></i> Admin Panel
+    </h2>
+
+    <nav class="sidebar-nav">
+        <a th:href="@{/admin/dashboard}" class="nav-item">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+        <a th:href="@{/admin/professionals}" class="nav-item">
+            <i class="fas fa-user-md"></i> Professionals
+        </a>
+        <a th:href="@{/admin/users}" class="nav-item active">
+            <i class="fas fa-users"></i> User Management
+        </a>
+    </nav>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </form>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content">
+    <h1 class="page-title">
+        <i class="fas fa-users"></i> User Management
+    </h1>
+    <p class="page-subtitle">View and manage user data.</p>
+
+    <!-- Success/Error Alerts -->
+    <div th:if="${success}" class="message success-message bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow-md" role="alert">
+        <p th:text="${success}"></p>
+    </div>
+    <div th:if="${error}" class="message error-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow-md" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- User Table Panel -->
+    <div class="all-users-panel panel-card">
+        <h2 class="section-title">
+            <i class="fas fa-user-friends"></i> All Users
+        </h2>
+
+        <div class="search-bar relative mb-6">
+            <i class="fas fa-search search-icon absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input type="text" id="userSearchInput" onkeyup="filterUsers()" placeholder="Search users by name or email..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="user-list-container overflow-x-auto">
+            <table class="user-table min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <thead>
+                <tr class="bg-gray-100 border-b border-gray-200">
+                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Name</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Email</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Journal Entries</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Last Entry</th>
+                    <th class="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="userTableBody">
+                <tr th:each="user : ${usersData}" class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50">
+                    <td class="py-3 px-4 text-sm text-gray-800 user-name" th:text="${user.username}">User Name</td>
+                    <td class="py-3 px-4 text-sm text-gray-800 user-email" th:text="${user.email}">user@example.com</td>
+                    <td class="py-3 px-4 text-sm text-gray-800" th:text="${user.journalEntriesCount}">0</td>
+                    <td class="py-3 px-4 text-sm text-gray-800" th:text="${user.lastEntryDate}">YYYY-MM-DD</td>
+                    <td class="py-3 px-4 text-sm text-gray-800">
+                        <form th:action="@{/admin/users/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete ' + this.querySelector('input[name=usernameDisplay]').value + '?');">
+                            <input type="hidden" name="id" th:value="${user.id}" />
+                            <input type="hidden" name="usernameDisplay" th:value="${user.username}" />
+                            <button type="submit" class="btn btn-delete bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg flex items-center justify-center transition-colors duration-200">
+                                <i class="fas fa-trash-alt mr-1"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usersData)}" id="noUsersRow">
+                    <td colspan="5" class="no-users-message text-center py-4 text-gray-500">No users found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script th:inline="javascript">
+    const usersData = /*[[${usersData}]]*/ [];
+
+    function filterUsers() {
+        const input = document.getElementById("userSearchInput");
+        const filter = input.value.toLowerCase();
+        const tableBody = document.getElementById("userTableBody");
+        const rows = tableBody.getElementsByTagName("tr");
+
+        let usersFound = false;
+
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].id === 'noUsersRow') {
+                rows[i].style.display = 'none';
+                continue;
+            }
+
+            const userNameCol = rows[i].querySelector('.user-name');
+            const userEmailCol = rows[i].querySelector('.user-email');
+
+            if (userNameCol || userEmailCol) {
+                const userNameText = userNameCol ? userNameCol.textContent.toLowerCase() : '';
+                const userEmailText = userEmailCol ? userEmailCol.textContent.toLowerCase() : '';
+
+                const rowMatchesFilter = userNameText.includes(filter) || userEmailText.includes(filter);
+                const isUserAdmin = userNameText === 'admin';
+
+                if (rowMatchesFilter && !isUserAdmin) {
+                    rows[i].style.display = "";
+                    usersFound = true;
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        const noUsersRow = document.getElementById("noUsersRow");
+        if (noUsersRow) {
+            noUsersRow.style.display = (usersFound || filter === '') ? 'none' : '';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', filterUsers);
+</script>
+</body>
+</html>

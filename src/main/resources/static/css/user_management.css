@@ -1,0 +1,467 @@
+/* Health Tracker/src/main/resources/static/css/user_management.css */
+
+/* Import admin_dashboard.css to inherit base styles */
+@import url('admin_dashboard.css');
+
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter for a modern look */
+}
+
+body, html {
+    height: 100%;
+    background-color: #e2e8f0; /* Light grey background for the overall page */
+    color: #334155; /* Darker text for general content */
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Main Layout Container */
+.container {
+    display: flex;
+    min-height: 100vh; /* Ensure container takes full viewport height */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 280px; /* Wider sidebar as per screenshot */
+    background-color: #ffffff; /* White background for sidebar */
+    color: #1a202c; /* Dark text for sidebar */
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    height: 100%; /* Full height */
+    z-index: 1000; /* Ensure it stays on top */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05); /* Subtle shadow on the right */
+    overflow-y: auto; /* Allow sidebar content to scroll if needed */
+}
+
+.sidebar-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #3b82f6; /* Blue accent for title */
+    margin-bottom: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sidebar-title i {
+    font-size: 28px;
+}
+
+.sidebar-nav {
+    flex-grow: 1; /* Allows nav to take available vertical space */
+}
+
+.nav-item {
+    display: flex; /* Use flex for icon and text alignment */
+    align-items: center;
+    padding: 12px 15px;
+    margin: 8px 0;
+    text-decoration: none;
+    color: #4a5568; /* Greyish text for inactive links */
+    background-color: transparent;
+    border-radius: 8px;
+    font-size: 17px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-item i {
+    margin-right: 12px;
+    font-size: 18px;
+    color: #64748b; /* Icon color for inactive links */
+}
+
+.nav-item:hover {
+    background-color: #f0f4f8; /* Light hover background */
+    color: #2563eb; /* Blue text on hover */
+    transform: translateX(5px); /* Slight slide effect on hover */
+}
+
+.nav-item:hover i {
+    color: #2563eb; /* Blue icon on hover */
+}
+
+.nav-item.active {
+    background-color: #eff6ff; /* Lighter blue background for active link */
+    color: #2563eb; /* Blue text for active link */
+    font-weight: 600;
+}
+
+.nav-item.active i {
+    color: #2563eb; /* Blue icon for active link */
+}
+
+/* Logout Button */
+.logout-form {
+    margin-top: 30px; /* Space above logout button */
+    padding-top: 20px; /* Padding for visual separation */
+    border-top: 1px solid #e2e8f0; /* Separator line */
+}
+
+.logout-form button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #ef4444; /* Red for logout */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logout-form button i {
+    font-size: 18px;
+}
+
+.logout-form button:hover {
+    background-color: #dc2626; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 280px; /* Offset by sidebar width */
+    flex-grow: 1; /* Take up remaining space */
+    padding: 40px;
+    background-color: #f8fafc; /* Very light background for content area */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between sections */
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a202c;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+/* Statistics Cards Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 25px;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Circular icon background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    /* Specific colors for each icon wrapper */
+}
+
+/* Specific icon wrapper colors as per screenshot */
+.stat-card:nth-child(1) .stat-icon-wrapper { background-color: #3b82f6; } /* Blue for Professionals */
+.stat-card:nth-child(2) .stat-icon-wrapper { background-color: #22c55e; } /* Green for Appointments */
+.stat-card:nth-child(3) .stat-icon-wrapper { background-color: #ef4444; } /* Red for Users */
+
+
+.stat-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a202c;
+    line-height: 1; /* Adjust line height to prevent extra space */
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+/* Dashboard Sections: Chart and Recent Appointments */
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjust min-width */
+    gap: 25px;
+}
+
+.panel-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: #3b82f6; /* Blue icon for titles */
+    font-size: 20px;
+}
+
+/* Chart Specific Styles */
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; /* Align bars to the bottom */
+    height: 200px; /* Fixed height for the chart area */
+    padding-top: 10px; /* Space from title */
+}
+
+.bar-chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; /* Take full height of chart container */
+    justify-content: flex-end; /* Push bar and label to bottom */
+    flex: 1; /* Distribute space evenly */
+    max-width: 100px; /* Max width for each bar column */
+}
+
+.chart-bar {
+    width: 60px; /* Width of each bar */
+    background-color: #3b82f6; /* Blue for bars */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+    transition: height 0.5s ease-out;
+    margin-bottom: 5px; /* Space between bar and label */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bar-label {
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+    word-break: break-word; /* Allow long names to break */
+}
+
+/* Message for no data in charts/lists */
+.no-data-message {
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+    padding: 20px;
+    width: 100%;
+}
+
+
+/* Recent Appointments List */
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.appointment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc; /* Slightly different background for list items */
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.appointment-item:hover {
+    background-color: #eff6ff;
+    transform: translateY(-2px);
+}
+
+.appointment-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.patient-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #334155;
+}
+
+.professional-name {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+.appointment-date {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    white-space: nowrap; /* Prevent date from wrapping */
+    margin-left: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 30px;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .dashboard-sections {
+        grid-template-columns: 1fr; /* Stack chart and recent appointments vertically */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack sidebar and main content */
+    }
+
+    .sidebar {
+        position: static; /* Sidebar becomes part of normal flow */
+        width: 100%;
+        height: auto;
+        padding: 20px 15px;
+        flex-direction: row; /* Horizontal layout for links on mobile */
+        flex-wrap: wrap; /* Allow links to wrap */
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Shadow at bottom of mobile sidebar */
+        border-radius: 0;
+    }
+
+    .sidebar-title {
+        width: 100%; /* Title takes full width */
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%; /* Navigation takes full width */
+        gap: 8px; /* Smaller gap between nav items */
+        margin-bottom: 15px;
+    }
+
+    .nav-item {
+        flex-grow: 1; /* Allow nav items to fill space */
+        font-size: 15px;
+        padding: 10px 12px;
+        justify-content: center; /* Center content in nav items */
+        text-align: center;
+    }
+
+    .nav-item i {
+        margin-right: 8px;
+    }
+
+    .logout-form {
+        width: 100%; /* Logout button takes full width */
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+
+    .main-content {
+        margin-left: 0; /* Remove left margin when stacked */
+        padding: 25px 20px;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr; /* Stack stats cards vertically */
+    }
+
+    .stat-card {
+        flex-direction: column; /* Stack icon and text in cards */
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .stat-icon-wrapper {
+        margin-bottom: 10px; /* Space below icon */
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+    }
+
+    .dashboard-sections {
+        grid-template-columns: 1fr; /* Already stacked from 1024px, but good to reinforce */
+    }
+
+    .section-title {
+        font-size: 20px;
+        justify-content: center;
+    }
+
+    .appointment-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 12px 15px;
+    }
+
+    .appointment-date {
+        margin-left: 0;
+        align-self: flex-end; /* Align date to the right */
+    }
+
+    .bar-chart-wrapper {
+        max-width: 80px; /* Adjust bar width for smaller screens */
+    }
+}

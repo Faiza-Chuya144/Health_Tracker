@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Health Prediction</title>
+    <link rel="stylesheet" th:href="@{/css/health_prediction.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+<div class="container">
+    <aside class="sidebar w-64 bg-white text-gray-800 flex flex-col p-4 fixed h-full overflow-y-auto">
+        <h2 class="sidebar-title text-2xl font-bold mb-6 flex items-center justify-center">
+            <i class="fas fa-heartbeat mr-2 text-blue-600"></i> HealthPulse
+        </h2>
+        <nav class="sidebar-nav flex flex-col space-y-2">
+            <a th:href="@{/user/dashboard}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-th-large mr-3 text-gray-500"></i> Dashboard
+            </a>
+            <a th:href="@{/health-journal}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-clipboard-list mr-3 text-gray-500"></i> Health Journal
+            </a>
+            <a th:href="@{/health_prediction}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-chart-line mr-3 text-gray-500"></i> AI Prediction
+            </a>
+            <a th:href="@{/food_scanner}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+                <i class="fas fa-apple-alt mr-3 text-gray-500"></i> Food Scanner
+            </a>
+            <a th:href="@{/user/book_appointment}" class="nav-item active flex items-center p-3 rounded-lg bg-blue-100 text-blue-700 font-semibold">
+                <i class="fas fa-calendar-alt mr-3 text-blue-700"></i> Book Appointment
+            </a>
+        </nav>
+        <form th:action="@{/logout}" method="post" class="logout-form mt-auto">
+            <button type="submit" class="w-full flex items-center justify-center p-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-colors duration-200">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+    </aside>
+
+    <section class="main-prediction-content">
+        <div class="ai-analysis-box">
+            <h2>AI Health Analysis</h2>
+            <p>Our advanced AI will analyze your health data and provide personalized predictions.</p>
+            <form th:action="@{/health_prediction}" method="post">
+                <button type="submit" class="generate-button">Generate Prediction</button>
+            </form>
+        </div>
+
+        <div th:if="${showResults}">
+            <section class="metrics-section">
+                <div class="health-score-box">
+                    <h2>Health Score</h2>
+                    <p class="score" th:text="${healthScore} + '/100'">85/100</p>
+                    <div class="progress-bar">
+                        <div class="filled" th:style="'width:' + ${healthScore} + '%'"></div>
+                    </div>
+                    <p>Based on your current health metrics</p>
+                </div>
+                <div class="risk-assessment-box">
+                    <h2>Risk Assessment</h2>
+                    <span class="risk-tag"
+                          th:text="${riskLevel}"
+                          th:classappend="${riskLevel} == 'Low Risk' ? 'low' : (${riskLevel} == 'Moderate Risk' ? 'moderate' : 'high')">
+                    </span>
+                    <p>Overall health risk level for the next 7 days</p>
+                </div>
+            </section>
+
+            <section class="forecast-section">
+                <h2>7-Day Health Forecast</h2>
+                <div class="forecast-item" th:each="item : ${forecast}">
+                    <p th:text="${item}">Day forecast</p>
+                    <span class="confidence"></span>
+                </div>
+                <div th:if="${forecast == null or #lists.isEmpty(forecast)}">
+                    <p>No forecast data available.</p>
+                </div>
+            </section>
+
+            <section class="recommendations-section">
+                <h2>Personalized Recommendations</h2>
+                <div class="recommendation" th:each="rec : ${recommendations}">
+                    <h3 th:text="${rec.title}">Title</h3>
+                    <p th:text="${rec.desc}">Description</p>
+                    <span class="priority"
+                          th:text="${rec.priority}"
+                          th:classappend="${rec.priority} == 'low' ? 'low' : (${rec.priority} == 'medium' ? 'medium' : 'high')">
+                    </span>
+                </div>
+                <div th:if="${recommendations == null or #lists.isEmpty(recommendations)}">
+                    <p>No personalized recommendations available.</p>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>
+</body>
+</html>

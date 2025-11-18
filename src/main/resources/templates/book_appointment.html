@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book an Appointment</title>
+  <link rel="stylesheet" th:href="@{/css/admin_dashboard.css}" />
+  <link rel="stylesheet" th:href="@{/css/book_appointment.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Basic table styling for the confirmation slip */
+    .confirmation-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+    .confirmation-table th, .confirmation-table td {
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+    }
+    .confirmation-table th {
+      background-color: #f0f4f8;
+      font-weight: 600;
+      color: #4a5568;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+<aside class="sidebar w-64 bg-white text-gray-800 flex flex-col p-4 fixed h-full overflow-y-auto">
+  <h2 class="sidebar-title text-2xl font-bold mb-6 flex items-center justify-center">
+    <i class="fas fa-heartbeat mr-2 text-blue-600"></i> HealthPulse
+  </h2>
+  <nav class="sidebar-nav flex flex-col space-y-2">
+    <a th:href="@{/user/dashboard}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+      <i class="fas fa-home mr-3 text-gray-500"></i> Dashboard </a>
+    <a th:href="@{/health-journal}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+      <i class="fas fa-clipboard-list mr-3 text-gray-500"></i> Health Journal </a>
+    <a th:href="@{/health_prediction}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+      <i class="fas fa-chart-line mr-3 text-gray-500"></i> AI Prediction </a>
+    <a th:href="@{/food_scanner}" class="nav-item flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-gray-700">
+      <i class="fas fa-apple-alt mr-3 text-gray-500"></i> Food Scanner </a>
+    <a th:href="@{/user/book_appointment}" class="nav-item active flex items-center p-3 rounded-lg bg-blue-100 text-blue-700 font-semibold">
+      <i class="fas fa-calendar-alt mr-3 text-blue-700"></i> Book Appointment
+    </a>
+  </nav>
+  <form th:action="@{/logout}" method="post" class="logout-form mt-auto">
+    <button type="submit" class="w-full flex items-center justify-center p-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-colors duration-200">
+      <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    </button>
+  </form>
+</aside>
+
+<main class="main-content flex-1 p-8 ml-64">
+  <h1 class="page-title text-4xl font-bold text-gray-800 mb-4 flex items-center">
+    <i class="fas fa-calendar-check mr-3 text-blue-600"></i> Book an Appointment
+  </h1>
+  <p class="page-subtitle text-gray-600 mb-8">Find and book appointments with our top-rated professionals.</p>
+
+  <div th:if="${successBooking}" class="message success-message bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow-md" role="alert">
+    <p class="font-bold mb-2">Appointment booked successfully!</p>
+    <table class="confirmation-table">
+      <thead>
+      <tr>
+        <th>Detail</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Professional</td>
+        <td th:text="${bookedProfessionalName}"></td>
+      </tr>
+      <tr>
+        <td>Date</td>
+        <td th:text="${bookedAppointmentDate}"></td>
+      </tr>
+      <tr>
+        <td>Time</td>
+        <td th:text="${bookedAppointmentTime}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${error}" class="message error-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow-md" role="alert">
+    <p th:text="${error}"></p>
+  </div>
+
+  <div class="professionals-grid">
+    <div class="professional-card" th:each="professional : ${professionals}">
+      <div class="professional-avatar">
+        <i class="fas fa-user-md text-blue-400"></i>
+      </div>
+      <h3 class="professional-name" th:text="${'Dr. ' + professional.fullName}">Dr. Professional Name</h3>
+      <p class="professional-specialty" th:text="${professional.specialty}">Specialty</p>
+      <button class="btn btn-primary book-now-btn"
+              th:data-professional-id="${professional.id}"
+              th:data-professional-name="${professional.fullName}"
+              th:data-professional-specialty="${professional.specialty}"
+              th:data-patient-user-id="${patientUserId}">
+        Book Now
+      </button>
+    </div>
+    <div th:if="${#lists.isEmpty(professionals)}" class="no-professionals-message">
+      No professionals available for booking at the moment.
+    </div>
+  </div>
+</main>
+
+<div id="datePickerModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h2 class="modal-title">Book with <span id="modalProfessionalName"></span></h2>
+    <p class="modal-subtitle">Select a date for your appointment.</p>
+    <form id="bookingForm" th:action="@{/user/book_appointment/confirm}" method="post">
+      <input type="hidden" id="bookingProfessionalId" name="professionalId" />
+      <input type="hidden" id="bookingProfessionalSpecialty" name="professionalSpecialty" />
+      <input type="hidden" id="bookingPatientUserId" name="patientUserId" th:value="${patientUserId}" />
+      <div class="form-group">
+        <label for="appointmentDate">Date:</label>
+        <input type="date" id="appointmentDate" name="appointmentDate" required />
+        <i class="fas fa-calendar-alt calendar-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="appointmentTime">Time:</label>
+        <select id="appointmentTime" name="appointmentTime" required>
+          <option value="">Select Time</option>
+          <option value="09:00 AM">09:00 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <option value="02:00 PM">02:00 PM</option>
+          <option value="03:00 PM">03:00 PM</option>
+          <option value="04:00 PM">04:00 PM</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary cancel-button">Cancel</button>
+        <button type="submit" class="btn btn-primary">Confirm Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  // Get elements for modals
+  const datePickerModal = document.getElementById('datePickerModal');
+  const bookNowButtons = document.querySelectorAll('.book-now-btn');
+  const closeButtons = document.querySelectorAll('.close-button, .cancel-button');
+  const bookingForm = document.getElementById('bookingForm');
+  const modalProfessionalName = document.getElementById('modalProfessionalName');
+  const bookingProfessionalId = document.getElementById('bookingProfessionalId');
+  const bookingPatientUserId = document.getElementById('bookingPatientUserId');
+  const appointmentDateInput = document.getElementById('appointmentDate');
+  const appointmentTimeSelect = document.getElementById('appointmentTime');
+
+  // Removed JavaScript variables related to confirmation modal data display
+  // const confirmedProfessionalName = document.getElementById('confirmedProfessionalName');
+  // const confirmedAppointmentDate = document.getElementById('confirmedAppointmentDate');
+  // const confirmedAppointmentTime = document.getElementById('confirmedAppointmentTime');
+  // const downloadSlipButton = document.getElementById('downloadSlipButton');
+
+  /**
+   * Opens the date picker modal and populates professional details.
+   * @param {string} professionalId - The ID of the professional.
+   * @param {string} professionalName - The name of the professional.
+   * @param {string} patientUserId - The ID of the patient booking the appointment.
+   */
+  function openDatePickerModal(professionalId, professionalName, patientUserId) {
+    modalProfessionalName.textContent = professionalName;
+    bookingProfessionalId.value = professionalId;
+    bookingPatientUserId.value = patientUserId;
+
+    // Set min date to today for appointmentDate input
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    appointmentDateInput.min = `${year}-${month}-${day}`;
+    appointmentDateInput.value = `${year}-${month}-${day}`; // Set default to today
+    datePickerModal.style.display = 'flex';
+  }
+
+  /**
+   * Closes all active modals.
+   */
+  function closeAllModals() {
+    datePickerModal.style.display = 'none';
+  }
+
+  // Add event listeners to "Book Now" buttons
+  bookNowButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const professionalId = button.dataset.professionalId;
+      const professionalName = button.dataset.professionalName;
+      const patientUserId = button.dataset.patientUserId;
+      openDatePickerModal(professionalId, professionalName, patientUserId);
+    });
+  });
+
+  // Add event listeners to close buttons
+  closeButtons.forEach(button => {
+    button.addEventListener('click', closeAllModals);
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', (event) => {
+    if (event.target === datePickerModal) {
+      closeAllModals();
+    }
+  });
+
+  // Removed all JavaScript logic related to the confirmation modal and download slip
+</script>
+</body>
+</html>

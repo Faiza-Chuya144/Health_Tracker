@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+<!-- Header with logo and title -->
+<div class="logo-title">
+    <img th:src="@{/image/img.png}" alt="Library Logo" class="library-logo">
+    <h1>Health & Nutrition Tracker</h1>
+</div>
+
+<!-- Login/Register form container -->
+<div class="login-wrap">
+    <div class="login-html">
+        <!-- Tabs -->
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+        <label for="tab-1" class="tab">Sign In</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up">
+        <label for="tab-2" class="tab">Sign Up</label>
+
+
+
+        <!-- Form content -->
+        <div class="login-form">
+            <!-- Sign In Form -->
+            <!-- Added th:object to bind the form fields -->
+            <form th:action="@{/login}" method="post" th:object="${loginUser}" class="sign-in-htm">
+                <div class="group">
+                    <label for="login-user" class="label">Email Address</label>
+                    <input id="login-user" type="text" class="input" required th:field="*{email}" />
+                </div>
+                <div class="group">
+                    <label for="login-pass" class="label">Password</label>
+                    <input id="login-pass" type="password" class="input" required th:field="*{password}" />
+                </div>
+                <div class="group">
+                    <input id="check" type="checkbox" name="remember-me" class="check" />
+                    <label for="check"><span class="icon"></span> Keep me Signed in</label>
+                </div>
+                <div class="group">
+                    <input type="submit" class="button" value="Sign In" />
+                </div>
+
+                <div th:if="${error}" style="color: red; text-align: center;">
+                    <p th:text="${error}"></p>
+                </div>
+                <div th:if="${success}" style="color: limegreen; text-align: center;">
+                    <p th:text="${success}"></p>
+                </div>
+            </form>
+
+            <!-- Sign Up Form -->
+            <!-- th:object is good here already -->
+            <form th:action="@{/registration}" th:object="${user}" method="post" class="sign-up-htm">
+                <div class="group">
+                    <label for="signup-user" class="label">Username</label>
+                    <input id="signup-user" th:field="*{userName}" type="text" class="input" required>
+                </div>
+                <div class="group">
+                    <label for="signup-pass" class="label">Password</label>
+                    <input id="signup-pass" th:field="*{password}" type="password" class="input" required>
+                </div>
+                <div class="group">
+                    <label for="signup-repeat" class="label">Repeat Password</label>
+                    <input id="signup-repeat" th:field="*{repeatPassword}" type="password" class="input" required>
+                </div>
+                <div class="group">
+                    <label for="signup-email" class="label">Email </label>
+                    <input id="signup-email" th:field="*{email}" type="email" class="input" required>
+                </div>
+
+                <div class="group">
+                    <input type="submit" class="button" value="Sign Up">
+                </div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <label for="tab-1">Already Member?</label>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

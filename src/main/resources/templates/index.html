@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Healthy Living - Our Services</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="contact">
+        <span>info@healthyliving.com</span> |
+        <span>+123 456 7890</span>
+    </div>
+    <div class="social-icons">
+        <a href="#">FB</a>
+        <a href="#">TW</a>
+        <a href="#">IN</a>
+    </div>
+</div>
+
+<header>
+    <div class="logo">HEALTHY <span>LIVING</span></div>
+    <nav>
+        <a th:href="@{/login}" class="sign-in-btn">Sign In</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-overlay">
+        <h1>Our Services</h1>
+    </div>
+</section>
+
+<section class="cards">
+    <div class="card">
+        <h3>Clinical Expertise</h3>
+        <p>Evidence-based care from nutrition experts.</p>
+    </div>
+    <div class="card">
+        <h3>Menu Services</h3>
+        <p>Customized nutrition plans for your lifestyle.</p>
+    </div>
+    <div class="card">
+        <h3>Healthy Living</h3>
+        <p>Empower better habits with guided support.</p>
+    </div>
+    <div class="card">
+        <h3>Medical Nutrition</h3>
+        <p>Support for chronic diseases through food.</p>
+    </div>
+</section>
+
+<section class="community">
+    <h2>Growing community</h2>
+    <div class="grid">
+        <div>✅ Healthy life</div>
+        <div>✅ Our principles</div>
+        <div>✅ Farming practices</div>
+        <div>✅ Personalized plan</div>
+        <div>✅ Coaching</div>
+        <div>✅ Family Care</div>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2>Here's How Our Nutrition Works</h2>
+    <p>Don't miss our in-depth nutrition guidance and care-driven plans.</p>
+    <div class="steps">
+        <div class="step">Schedule an appointment</div>
+        <div class="step">Get clear on your goals</div>
+        <div class="step">Meet our Nutritionist</div>
+        <div class="step">Get support & results</div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Healthy Living. All rights reserved.</p>
+        <p>
+            <a th:href="@{/privacy}">Privacy Policy</a> |
+            <a th:href="@{/terms}">Terms & Conditions</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

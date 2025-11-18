@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Manage Professionals</title>
+    <link rel="stylesheet" th:href="@{/css/admin_dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/professionals.css}" /> <!-- Specific CSS for this page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar Navigation (reused from admin_dashboard.html) -->
+    <aside class="sidebar">
+        <h2 class="sidebar-title">
+            <i class="fas fa-heartbeat"></i> Admin Panel
+        </h2>
+        <nav class="sidebar-nav">
+            <a th:href="@{/admin/dashboard}" class="nav-item">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a th:href="@{/admin/professionals}" class="nav-item active">
+                <i class="fas fa-user-md"></i> Professionals
+            </a>
+            <a th:href="@{/admin/users}" class="nav-item">
+                <i class="fas fa-users"></i> User Management
+            </a>
+        </nav>
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <h1 class="page-title">
+            <i class="fas fa-stethoscope"></i> Manage Professionals
+        </h1>
+        <p class="page-subtitle">Add, view, or remove doctors and dietitians.</p>
+
+        <!-- Success/Error Messages -->
+        <div th:if="${success}" class="message success-message" th:text="${success}"></div>
+        <div th:if="${error}" class="message error-message" th:text="${error}"></div>
+
+        <div class="professionals-grid">
+            <!-- Add New Professional Card -->
+            <div class="add-professional-card panel-card">
+                <h2 class="section-title">Add New Professional</h2>
+                <form th:action="@{/admin/professionals/add}" method="post" th:object="${newProfessional}">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" th:field="*{fullName}" placeholder="e.g., Dr. John Doe" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="specialty">Specialty</label>
+                        <input type="text" id="specialty" th:field="*{specialty}" placeholder="e.g., Cardiology" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="avatarUrl">Avatar URL (Optional)</label>
+                        <input type="url" id="avatarUrl" th:field="*{avatarUrl}" placeholder="https://example.com/jim.jpg" />
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Professional</button>
+                </form>
+            </div>
+
+            <!-- Current Professionals List Card -->
+            <div class="current-professionals-card panel-card">
+                <h2 class="section-title">Current Professionals List</h2>
+                <div class="professional-list">
+                    <div th:if="${#lists.isEmpty(professionals)}" class="no-professionals-message">
+                        No professionals added yet.
+                    </div>
+                    <div class="professional-item" th:each="professional : ${professionals}">
+                        <img th:src="${professional.avatarUrl != null and !#strings.isEmpty(professional.avatarUrl) ? professional.avatarUrl : 'https://placehold.co/50x50/cccccc/333333?text=PROF'}"
+                             alt="Avatar" class="professional-avatar"
+                             onerror="this.onerror=null;this.src='https://placehold.co/50x50/cccccc/333333?text=PROF';" />
+                        <div class="professional-details">
+                            <span class="professional-name" th:text="${professional.fullName}">Dr. Sarah Johnson</span>
+                            <span class="professional-specialty" th:text="${professional.specialty}">General Medicine</span>
+                        </div>
+                        <form th:action="@{/admin/professionals/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete ' + this.querySelector('input[name=fullNameDisplay]').value + '?');">
+                            <input type="hidden" name="id" th:value="${professional.id}" />
+                            <input type="hidden" name="fullNameDisplay" th:value="${professional.fullName}" />
+                            <button type="submit" class="btn btn-delete"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
